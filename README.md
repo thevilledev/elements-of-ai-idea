@@ -4,7 +4,7 @@ Final project for the Building AI course at https://www.elementsofai.com/. Compl
 
 ## Summary
 
-Utilise reinforcement learning to augment resource scheduling decisions in a virtualization environment by training an agent to make optimal decisions based on the current state and past use of the system.
+Utilise reinforcement learning to augment resource scheduling decision making in virtualisation environments. Train an agent to make optimal decisions based on the current state and past use of the system resources.
 
 ## Background
 
