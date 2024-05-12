@@ -4,7 +4,7 @@ Final project for the Building AI course at https://www.elementsofai.com/
 
 ## Summary
 
-Utilise reinforcement learning to augment resource scheduling decisions in a virtualization environment by training an agent to make optimal decisions based on the current state of the system.
+Utilise reinforcement learning to augment resource scheduling decisions in a virtualization environment by training an agent to make optimal decisions based on the current state and past use of the system.
 
 ## Background
 
@@ -24,72 +24,69 @@ the cost of lower class of high-availability would be ideal. In other environmen
 might be the main factor. Neither example also measure whether the decision was a good or a bad one,
 while functionality was achieved.
 
-Augmenting the scheduling process through reinforcement learning allows the system to factor in a lot
-of information that's currently not used. It allows the system to learn how the workloads operate, for
-example how much CPU is actually used vs. allocated.
+Augmenting this process with reinforcement learning would allow the system to make more optimal decisions. It factors in a lot more information that's currently not used. As an example, create
+a feedback loop how much each workload has actually used the CPU it was allocated with and when.
 
-
-Which problems does your idea solve? How common or frequent is this problem? What is your personal motivation? Why is this topic important or interesting?
-
-This is how you make a list, if you need one:
-* problem 1
-* problem 2
-* etc.
-
+My main motivation to this idea comes from years of experience of building and maintaining such
+environments. Workload scheduling is often looked as a forward-only process, where only the state of
+the system upon making a scheduling decision matters.
 
 ## How is it used?
 
-Describe the process of using the solution. In what kind situations is the solution needed (environment, time, etc.)? Who are the users, what kinds of needs should be taken into account?
+The system designed here will take in data from a resource scheduling request, typically consisting
+of multiple features. Whenever a new resource is created or scheduled, a request is created. Environments
+have a scheduler already, but the system described here could be used to augment the previous method.
 
-Images will make your README look nice!
-Once you upload an image to your repository, you can link link to it like this (replace the URL with file path, if you've uploaded an image to Github.)
-![Cat](https://upload.wikimedia.org/wikipedia/commons/5/5e/Sleeping_cat_on_her_back.jpg)
+The system could be used by anyone who operates a system that's scheduling resources, such as Kubernetes
+or a virtualisation platform. It could be bundled with a readily available pre-trained model, but due to to the nature of the problem fine-tuning or even re-training the model would be likely required.
 
-If you need to resize images, you have to use an HTML tag, like this:
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Sleeping_cat_on_her_back.jpg" width="300">
+Steps involved for creating the system:
 
-This is how you create code examples:
-```
-def main():
-   countries = ['Denmark', 'Finland', 'Iceland', 'Norway', 'Sweden']
-   pop = [5615000, 5439000, 324000, 5080000, 9609000]   # not actually needed in this exercise...
-   fishers = [1891, 2652, 3800, 11611, 1757]
-
-   totPop = sum(pop)
-   totFish = sum(fishers)
-
-   # write your solution here
-
-   for i in range(len(countries)):
-      print("%s %.2f%%" % (countries[i], 100.0))    # current just prints 100%
-
-main()
-```
-
+- Train an agent about the state of the system ("state space")
+- Train an agent about possible scheduling decisions ("action space")
+- Define the reward function, which provides qualitative feedback of the decisions that were made, based on available metrics (such as resource utilisation, energy consumption)
+- Implement the reinforcement learning algorithm
+- Train the agent by running simulations or experiments
+- Evaluate and fine-tune the algorithm and parameters if necessary
 
 ## Data sources and AI methods
-Where does your data come from? Do you collect it yourself or do you use data collected by someone else?
-If you need to use links, here's an example:
-[Twitter API](https://developer.twitter.com/en/docs)
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+Reinforcement learning for resource allocation has been researched in at least these
+research papers:
+
+- "Reinforcement Learning for Autonomic Resource Allocation in Clouds: Towards a Unified Approach" by Faraz Fatemi Moghaddam, Mohammad Mahdi Rezaei Youzhi, and Alberto Leon-Garcia
+- "Deep Reinforcement Learning for Multi-resource Multi-machine Job Scheduling" by Zhiyuan Xu and Yuxiong He
+- "Resource Management with Deep Reinforcement Learning" by Hongzi Mao, Mohammad Alizadeh, Ishai Menache, and Srikanth Kandula
+
+A local virtualisation environment, a lab environment or a cloud environment would be sufficient as a
+data source for gathering training data, but also for simulations.
+
 
 ## Challenges
 
-What does your project _not_ solve? Which limitations and ethical considerations should be taken into account when deploying a solution like this?
+Safety, reliability and stability are super important for a decision-maker process that sits at the
+critical path of scheduling resources.
+
+State space for any virtualisation environment is often large and complex to capture. Capturing all
+meaningful parameters might lead to a complex high-dimensional state space. Same applies to the
+action space.
+
+Learning through rewards or penalties as dictated by the reward function takes time. The impact of the
+decision might not be immediately apparent. These delays might be difficult to capture through the reward
+function.
+
+Scoping the project initially to specific type of workloads might be an approach worth taking. Treating
+the reinforcement learning process as an augmentation rather than sole decision maker, scoping it to
+specific problems and building the knowledge that way would likely work. The opinionated way.
 
 ## What next?
 
-How could your project grow and become something even more? What kind of skills, what kind of assistance would you  need to move on? 
-
+Building it the opinionated way as described above and gathering user feedback would be next.
+While the environments can be simulated, real world scenarios and feedback is an absolute must for the
+project to succeed. This would require input from people who operate various large workloads across
+different environments.
 
 ## Acknowledgments
 
-* list here the sources of inspiration 
-* do not use code, images, data etc. from others without permission
-* when you have permission to use other people's materials, always mention the original creator and the open source / Creative Commons licence they've used
-  <br>For example: [Sleeping Cat on Her Back by Umberto Salvagnin](https://commons.wikimedia.org/wiki/File:Sleeping_cat_on_her_back.jpg#filelinks) / [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)
-* etc
+I wrote an OS task scheduler once and I always wondered how I could make the feedback loop work.
+I would like to thank the "Building AI" course & staff for the great course, and for sparking my interest in ML again, after a hiatus.
