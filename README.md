@@ -1,6 +1,6 @@
 # elements-of-ai-idea
 
-Final project for the Building AI course at https://www.elementsofai.com/
+Final project for the Building AI course at https://www.elementsofai.com/. Completed the course in May 2024.
 
 ## Summary
 
